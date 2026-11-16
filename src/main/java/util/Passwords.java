@@ -1,0 +1,2 @@
+package util;import javax.crypto.SecretKeyFactory;import javax.crypto.spec.PBEKeySpec;import java.util.*;import java.security.*;
+public class Passwords{public static boolean verify(String p,String stored)throws Exception{String[]a=stored.split(":");if(a.length!=3)return false;byte[] b=SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256").generateSecret(new PBEKeySpec(p.toCharArray(),Base64.getDecoder().decode(a[1]),Integer.parseInt(a[0]),256)).getEncoded();return MessageDigest.isEqual(b,Base64.getDecoder().decode(a[2]));}}

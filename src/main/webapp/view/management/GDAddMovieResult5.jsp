@@ -1,0 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.sql.*,java.util.*,java.time.*,model.*,dao.*,util.Web5" %>
+<!doctype html><html lang="vi"><head><meta charset="UTF-8"><title>Cinema5</title><link rel="stylesheet" href="<%=request.getContextPath()%>/assets/style.css"></head><body><nav>Cinema5 · Bài thực hành &nbsp; <a href="<%=request.getContextPath()%>/index.jsp">Trang chủ</a><a href="<%=request.getContextPath()%>/logout.jsp">Đăng xuất</a></nav><main>
+<h1>Kết quả thêm phim</h1><p>Phim mới đã được thêm.</p><a class="button" href="GDMovieManage5.jsp">Quay lại</a> <a href="GDManagerHome5.jsp">Thoát</a>
+</main></body></html>

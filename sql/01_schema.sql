@@ -1,0 +1,124 @@
+CREATE DATABASE IF NOT EXISTS cinema5 CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE cinema5;
+CREATE TABLE IF NOT EXISTS tblMember5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ Username VARCHAR(255) UNIQUE,
+ Password VARCHAR(255),
+ HoVaTen VARCHAR(255),
+ DiaChi VARCHAR(255),
+ NgaySinh DATE,
+ Email VARCHAR(255),
+ SDT VARCHAR(255),
+ GhiChu TEXT
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblStaff5 (
+ id INT PRIMARY KEY,
+ FOREIGN KEY (id) REFERENCES tblMember5(id),
+ MaNhanVien VARCHAR(255) UNIQUE
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblManagementStaff5 (
+ id INT PRIMARY KEY,
+ FOREIGN KEY (id) REFERENCES tblStaff5(id),
+ PhanQuyen TEXT,
+ VaiTro VARCHAR(255)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblSaleStaff5 (
+ id INT PRIMARY KEY,
+ FOREIGN KEY (id) REFERENCES tblStaff5(id),
+ CaLamViec VARCHAR(255)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblCustomer5 (
+ id INT PRIMARY KEY,
+ FOREIGN KEY (id) REFERENCES tblMember5(id),
+ MaKhachHang VARCHAR(255) UNIQUE
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblMembershipCard5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ MaThe VARCHAR(255) UNIQUE,
+ ThoiHan DATE,
+ TrangThai VARCHAR(255),
+ tblCustomer5id INT NOT NULL,
+ FOREIGN KEY (tblCustomer5id) REFERENCES tblCustomer5(id),
+ UNIQUE(tblCustomer5id)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblCinema5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ MaRap INT,
+ TenRap VARCHAR(255),
+ DiaChi VARCHAR(255),
+ MoTa TEXT
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblScreeningRoom5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ MaPhong VARCHAR(255),
+ SucChua INT,
+ SoDoGhe TEXT,
+ tblCinema5id INT NOT NULL,
+ FOREIGN KEY (tblCinema5id) REFERENCES tblCinema5(id)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblSeat5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ MaGhe VARCHAR(255),
+ LoaiGhe VARCHAR(255),
+ tblScreeningRoom5id INT NOT NULL,
+ FOREIGN KEY (tblScreeningRoom5id) REFERENCES tblScreeningRoom5(id),
+ UNIQUE(tblScreeningRoom5id,MaGhe)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblMovie5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ MaPhim VARCHAR(255) UNIQUE,
+ TenPhim VARCHAR(255),
+ TacGia VARCHAR(255),
+ ThoiLuong INT,
+ MoTa TEXT,
+ TheLoai VARCHAR(255),
+ ApPhich VARCHAR(255),
+ NgayPhatHanh DATE,
+ UNIQUE(TenPhim,TacGia),
+ CHECK(ThoiLuong>0)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblScreening5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ GioBatDau DATETIME,
+ GioKetThuc DATETIME,
+ TrangThai VARCHAR(255),
+ tblMovie5id INT NOT NULL,
+ FOREIGN KEY (tblMovie5id) REFERENCES tblMovie5(id),
+ tblScreeningRoom5id INT NOT NULL,
+ FOREIGN KEY (tblScreeningRoom5id) REFERENCES tblScreeningRoom5(id)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblOrder5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ MaGiaoDich VARCHAR(255) UNIQUE,
+ HinhThucMua VARCHAR(255),
+ ThoiGianTao DATETIME,
+ TrangThai VARCHAR(255),
+ MaHoaDon VARCHAR(255) UNIQUE,
+ NgayLap DATETIME,
+ tblCustomer5id INT,
+ FOREIGN KEY (tblCustomer5id) REFERENCES tblCustomer5(id),
+ tblMembershipCard5id INT,
+ FOREIGN KEY (tblMembershipCard5id) REFERENCES tblMembershipCard5(id)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblPayment5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ SoTien DECIMAL(15,2),
+ PhuongThuc VARCHAR(255),
+ ThoiDiem DATETIME,
+ TrangThai VARCHAR(255),
+ tblOrder5id INT NOT NULL,
+ FOREIGN KEY (tblOrder5id) REFERENCES tblOrder5(id)
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS tblTicket5 (
+ id INT PRIMARY KEY AUTO_INCREMENT,
+ MaVe VARCHAR(255) UNIQUE,
+ Gia DECIMAL(15,2),
+ TrangThai VARCHAR(255),
+ tblOrder5id INT NOT NULL,
+ FOREIGN KEY (tblOrder5id) REFERENCES tblOrder5(id),
+ tblScreening5id INT NOT NULL,
+ FOREIGN KEY (tblScreening5id) REFERENCES tblScreening5(id),
+ tblSeat5id INT NOT NULL,
+ FOREIGN KEY (tblSeat5id) REFERENCES tblSeat5(id),
+ UNIQUE(tblScreening5id,tblSeat5id)
+) ENGINE=InnoDB;

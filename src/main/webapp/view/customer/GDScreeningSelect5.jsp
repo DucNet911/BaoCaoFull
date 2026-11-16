@@ -1,0 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.sql.*,java.util.*,java.time.*,model.*,dao.*,util.Web5" %>
+<!doctype html><html lang="vi"><head><meta charset="UTF-8"><title>Cinema5</title><link rel="stylesheet" href="<%=request.getContextPath()%>/assets/style.css"></head><body><nav>Cinema5 · Bài thực hành &nbsp; <a href="<%=request.getContextPath()%>/index.jsp">Trang chủ</a><a href="<%=request.getContextPath()%>/logout.jsp">Đăng xuất</a></nav><main>
+<h1>Chọn suất chiếu</h1><%try(Connection c=DAO5.open()){Movie5 m=new MovieDAO5(c).get(Integer.parseInt(request.getParameter("movie")));%><h2><%=Web5.h(m.getTenPhim())%></h2><%for(Screening5 s:new ScreeningDAO5(c).getScreenings(m)){%><p><%=s.getGioBatDau()%> — <%=s.getGioKetThuc()%> <a href="GDSeatSelect5.jsp?screening=<%=s.getId()%>">Chọn suất</a></p><%}}%>
+</main></body></html>

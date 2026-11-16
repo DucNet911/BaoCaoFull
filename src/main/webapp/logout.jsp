@@ -1,0 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.sql.*,java.util.*,java.time.*,model.*,dao.*,util.Web5" %>
+<!doctype html><html lang="vi"><head><meta charset="UTF-8"><title>Cinema5</title><link rel="stylesheet" href="<%=request.getContextPath()%>/assets/style.css"></head><body><nav>Cinema5 · Bài thực hành &nbsp; <a href="<%=request.getContextPath()%>/index.jsp">Trang chủ</a><a href="<%=request.getContextPath()%>/logout.jsp">Đăng xuất</a></nav><main>
+<%if("POST".equals(request.getMethod())){Web5.post(request);session.invalidate();response.sendRedirect("login.jsp");return;}%><form method="post"><input type="hidden" name="csrf" value="<%=Web5.token(session)%>"><button>Đăng xuất</button></form>
+</main></body></html>

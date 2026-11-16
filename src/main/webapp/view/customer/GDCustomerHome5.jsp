@@ -1,0 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.sql.*,java.util.*,java.time.*,model.*,dao.*,util.Web5" %>
+<!doctype html><html lang="vi"><head><meta charset="UTF-8"><title>Cinema5</title><link rel="stylesheet" href="<%=request.getContextPath()%>/assets/style.css"></head><body><nav>Cinema5 · Bài thực hành &nbsp; <a href="<%=request.getContextPath()%>/index.jsp">Trang chủ</a><a href="<%=request.getContextPath()%>/logout.jsp">Đăng xuất</a></nav><main>
+<h1>Trang chủ khách hàng</h1><p>Xin chào <%=Web5.h(Web5.customer(session).getHoVaTen())%></p><a class="button" href="GDMovieSelect5.jsp">Mua vé</a><h2>Vé đã mua</h2><%try(Connection c=DAO5.open()){for(Order5 o:new OrderDAO5(c).history(Web5.customer(session).getId())){%><p><a href="GDTicketInvoice5.jsp?id=<%=o.getId()%>"><%=Web5.h(o.getMaHoaDon())%></a> — <%=o.getTongTien()%> đồng</p><%}}%>
+</main></body></html>
